@@ -25,7 +25,7 @@ def main():
     shift2 = int(input("Enter the second shift value (+ve integer): "))
     encoded = encode_text(content)
 
-    output_filename = "encoded_" + input_filename
+    output_filename = "encrypted_text.txt"
     with open(output_filename, "w") as file:
         file.write(encoded)
 

@@ -30,24 +30,25 @@ def cypher(char, shift1, shift2):
             return chr((index - shift1) % 26 + ord('A'))
         else:                                                        # N-Z
             return chr((index + shift2 * shift2) % 26 + ord('A'))
-    elif char.isdigit():
+    elif char.isdigit():                                             # if chars are digits
         return str((int(char) + shift1 - shift2) % 10)    
     else:
         return char
 
 def main():
-    input_filename = input("Filename to read: ")
-    with open(input_filename, "r") as file:
+    input_file = "raw_text.txt"
+    with open(input_file, "r") as file:
         content = file.read()
     shift1 = int(input("Enter the first shift value (+ve integer): "))
     shift2 = int(input("Enter the second shift value (+ve integer): "))
-    encoded = encode_text(content)
+    encoded = cypher(content, shift1, shift2)
 
-    output_filename = "encrypted_text.txt"
-    with open(output_filename, "w") as file:
+    output_file = "encrypted_text.txt"
+    with open(output_file, "w") as file:
+        file.write(f"{shift1}, {shift2}\n")                          # Write the shift values to the first line
         file.write(encoded)
 
-    print(f"Done! Encoded text saved to {output_filename}")
+    print(f"Done! Encoded text saved to {output_file}")
 
 if __name__ == "__main__":
     main()

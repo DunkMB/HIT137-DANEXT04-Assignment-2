@@ -9,8 +9,12 @@ print(f"{'Darren Bragg':<20} {'s406821':>20}")
 print(f"{'Duncan Brown':<20} {'s407728':>20}")
 print(f"{'Jonathan Falkner':<20} {'s400817':>20}")
 print("_" * 50)
-
-
+print(" " * 50)
+print(" " * 50)
+print(" " * 50)
+print("_" * 50)
+print("Question 1")
+print("_" * 50)
 def cypher(char, shift1, shift2):
     if char.isupper():
         return chr((ord(char) - ord('A') + shift1 + shift2) % 13 + ord('A'))

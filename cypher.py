@@ -22,7 +22,7 @@ def cypher(char, shift1, shift2):
         index = ord(char) - ord('a')  
         if index < 13:                                               # a-m
             return chr((index + (shift1 * shift2) % 26 + ord('a')))
-        else index >= 13:                                            # n-z
+        else:                                                        # n-z
             return chr((index - (shift1 + shift2) % 26 + ord('a')))
     elif char.isupper():
         index = ord(char) - ord('A')

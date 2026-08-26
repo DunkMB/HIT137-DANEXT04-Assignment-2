@@ -60,19 +60,18 @@ def Decryption(char, shift1, shift2):
     if char.islower():
         index = ord(char)-ord('a')
         if index < 13:
-            return chr((index-(shift1*shift2) - ord('a'))) #a-m decryption
+            return chr(index-(shift1*shift2)) #a-m decryption
         else:
-            return chur((index+(shift1*shift2)- ord('a'))) #n-z decryption
+            return chur(index+(shift1*shift2)) #n-z decryption
     if char.isupper():
         if index <13:
-            return chr((index+shift1)- ord('A')) #A-N decryption
+            return chr(index+shift1) #A-N decryption
         else:
-            return chr((index-(shift2*shift2)- ord('A'))) #O-Z decryption
+            return chr(index-(shift2*shift2)) #O-Z decryption
     if char.isdigit():
-        return str((int(char) - (shift1-shift2))) #integer decryption
+        return str(int(char) - (shift1-shift2)) #integer decryption
     else:
         return char
-
 
 def decrypt_file():
     input_file = "encrypted_text.txt"
@@ -88,5 +87,7 @@ def verify_files(original_path: str, decrypted_path: str):
         return "Decryption Successful! Files match."
     else:
         return 'Decryption Error! Files do not match.'
+
+
 
 

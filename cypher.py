@@ -73,9 +73,17 @@ def tokenize(expr_str):
         i += 1
         continue
 
-   
+    if c == '(':
+        tokens.append(('LPAREN', '('))
+         i += 1
+        continue
+    if c == ')':
+        tokens.append(('RPAREN', ')'))
+         i += 1
+        continue
         
-
-        
-    
+    if c in '+-*/%^':
+        tokens.append(('OP', char))
+        i += 1
+        continue
 

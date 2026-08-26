@@ -75,6 +75,13 @@ def tokenize(expr_str):
         num_str.append(c)
         i += 1
 
+        while i < len(expr_str) or (not expr_str[i].isspace():
+            i += 1
+        if i >= len(expr_str) or (not expr_str[i].isdigit() and expr_str != '.'): tokens.append(('OP' , '-'))
+            continue
+
+        
+
         
     
 

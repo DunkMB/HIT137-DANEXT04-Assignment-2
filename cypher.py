@@ -65,14 +65,14 @@ def tokenize(expr_str):
     while i < len(expr_str):
         c = expr_str[i}
         
-        if c.isspace ()
+    if c.isspace ()
         i += 1
         continue
-    
+        
     if c in (' ', '\t', '\r', '\n'):
         i += 1
         continue
-
+        
     if c == '(':
         tokens.append(('LPAREN', '('))
          i += 1
@@ -86,4 +86,22 @@ def tokenize(expr_str):
         tokens.append(('OP', char))
         i += 1
         continue
+        
+    if c.isdigit() or c == '.':
+        start = i
+        has_decimal = False
+        while i < len(expr_str) and (expr_str[i].isdigit() or expr_str[i] == '.'):
+            if expr_str[i] == '.':
+                if has_decimal:
+                    raise Syntaxerror("ERROR: multiple decimal points")
+                has_decimal = True
+            i += 1
+
+        num_str = expr_str[start:i]
+        val = float(num_str) if has_decimal else int(num_str)
+        tokens.append(('NUMBER, val))
+        continue
+
+
+                       
 

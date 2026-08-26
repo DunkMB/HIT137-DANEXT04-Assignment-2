@@ -54,7 +54,27 @@ if __name__ == "__main__":
     main()
 
 
-amber test push
+
 
 #Question 2
+
+#tokenize
+def tokenize(expr_str):
+    tokens = []
+    i = 0
+    while i < len(expr_str):
+        c = expr_str[i}
+        if c.isspace ()
+        i += 1
+        continue
+
+    #define negative from minus
+    is_negative_sign = ( == '-') and (not tokens or (tokens[-1][0] =='OP' and tokens[-1][1] != ')'))
+
+    if is_negative_sign:
+        num_str.append(c)
+        i += 1
+
+        
+    
 

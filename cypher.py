@@ -68,7 +68,7 @@ def tokenize(expr_str):
         i += 1
         continue
 
-    #define negative from minus
+    #define negative sign as minus or subtraction
     is_negative_sign = ( == '-') and (not tokens or (tokens[-1][0] =='OP' and tokens[-1][1] != ')'))
 
     if is_negative_sign:

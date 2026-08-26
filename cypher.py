@@ -64,22 +64,16 @@ def tokenize(expr_str):
     i = 0
     while i < len(expr_str):
         c = expr_str[i}
+        
         if c.isspace ()
         i += 1
         continue
-
-    #define negative sign as minus or subtraction
-    is_negative_sign = ( == '-') and (not tokens or (tokens[-1][0] =='OP' and tokens[-1][1] != ')'))
-
-    if is_negative_sign:
-        num_str.append(c)
-        i += 1
-
-        while i < len(expr_str) or (not expr_str[i].isspace():
+    
+    if c in (' ', '\t', '\r', '\n'):
             i += 1
-        if i >= len(expr_str) or (not expr_str[i].isdigit() and expr_str != '.'): tokens.append(('OP' , '-'))
             continue
 
+   
         
 
         

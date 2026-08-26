@@ -70,8 +70,8 @@ def tokenize(expr_str):
         continue
     
     if c in (' ', '\t', '\r', '\n'):
-            i += 1
-            continue
+        i += 1
+        continue
 
    
         

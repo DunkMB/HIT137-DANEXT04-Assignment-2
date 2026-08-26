@@ -93,14 +93,24 @@ def tokenize(expr_str):
         while i < len(expr_str) and (expr_str[i].isdigit() or expr_str[i] == '.'):
             if expr_str[i] == '.':
                 if has_decimal:
-                    raise Syntaxerror("ERROR: multiple decimal points")
+                    raise SyntaxError("Multiple decimal points")
                 has_decimal = True
             i += 1
 
         num_str = expr_str[start:i]
         val = float(num_str) if has_decimal else int(num_str)
-        tokens.append(('NUMBER, val))
+        tokens.append(('NUMBER', val))
         continue
+                       
+    raise SyntaxError(f"Unexpected character: {char}")
+
+tokens.append(('EOF', ''))
+return tokens
+
+
+
+
+
 
 
                        

@@ -137,19 +137,19 @@ def parse_two(tokens, index):
             elif op == '/':
                 if right == 0:
                     result = "ERROR: Division by zero"
-                else
-                    result = result * right
+                else:
+                    result = result / right
             elif op == '%':
                 if right == 0:
                     result = "ERROR: Modulo by zero"
-                else
+                else:
                     result = result % right
     
         elif token_type in ('LPAREN', 'NUMBER'):
-            if token_type == 'NUMBER' abd tokens[index-1][0] == 'NUMBER':
+            if token_type == 'NUMBER' and tokens[index-1][0] == 'NUMBER':
                 raise SyntaxError("Adjacent numbers without an operator are invalid.")
 
-            index, right, right_tree - parse_three(tokens, index)
+            index, right, right_tree = parse_three(tokens, index)
             tree = f"(* {tree} {right_tree})"
             result = result * right
         else:

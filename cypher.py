@@ -122,6 +122,28 @@ def parse_one(tokens, index):
 
 #Level 2 Precendence and Associativity: Muptiplication (inc Implicit), Division, Percentage. Left
 def parse_two(tokens, index):
+    index, result, tree = parse_three(tokens, index)
+    while True:
+        token_type = tokens[index][0]
+        token_val = tokens[index][1]
+
+        if token_type == 'OP' and token_val in ('*', '/', '%'):
+            op = token_val
+            index, right, right_tree = parse_three(tokens, index + 1)
+            tree = f"({op} {tree} {right_tree})"
+            if op == '*':
+                result = result * right
+            elif op == '/':
+                if right == 0:
+                    result = "ERROR: Division by zero"
+                else
+                    result = result * right
+            elif op == '%':
+                if right == 0:
+                    result = "ERROR: Modulo by zero"
+                else
+                    result = result % right
+    
             
 
 

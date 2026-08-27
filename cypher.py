@@ -54,60 +54,60 @@ if __name__ == "__main__":
     main()
 
 
-
-
 #Question 2
 
 #tokenize
+
 def tokenize(expr_str):
     tokens = []
     i = 0
     while i < len(expr_str):
-        c = expr_str[i}
+        c = expr_str[i]
         
-    if c.isspace ()
-        i += 1
-        continue
-        
-    if c in (' ', '\t', '\r', '\n'):
-        i += 1
-        continue
-        
-    if c == '(':
-        tokens.append(('LPAREN', '('))
-         i += 1
-        continue
-    if c == ')':
-        tokens.append(('RPAREN', ')'))
-         i += 1
-        continue
-        
-    if c in '+-*/%^':
-        tokens.append(('OP', char))
-        i += 1
-        continue
-        
-    if c.isdigit() or c == '.':
-        start = i
-        has_decimal = False
-        while i < len(expr_str) and (expr_str[i].isdigit() or expr_str[i] == '.'):
-            if expr_str[i] == '.':
-                if has_decimal:
-                    raise SyntaxError("Multiple decimal points")
-                has_decimal = True
+        if c.isspace ():
             i += 1
+            continue
+        
+        if c in (' ', '\t', '\r', '\n'):
+            i += 1
+            continue
+        
+        if c == '(':
+            tokens.append(('LPAREN', '('))
+            i += 1
+            continue
+        if c == ')':
+            tokens.append(('RPAREN', ')'))
+            i += 1
+            continue
+        
+        if c in '+-*/%^':
+            tokens.append(('OP', c))
+            i += 1
+            continue
+        
+        if c.isdigit() or c == '.':
+            start = i
+            has_decimal = False
+            while i < len(expr_str) and (expr_str[i].isdigit() or expr_str[i] == '.'):
+                if expr_str[i] == '.':
+                    if has_decimal:
+                        raise SyntaxError("Multiple decimal points")
+                    has_decimal = True
+                i += 1
 
-        num_str = expr_str[start:i]
-        val = float(num_str) if has_decimal else int(num_str)
-        tokens.append(('NUMBER', val))
-        continue
+            num_str = expr_str[start:i]
+            val = float(num_str) if has_decimal else int(num_str)
+            tokens.append(('NUMBER', val))
+            continue
                        
-    raise SyntaxError(f"Unexpected character: {char}")
+        raise SyntaxError(f"Unexpected character: {char}")
 
-tokens.append(('EOF', ''))
-return tokens
+    tokens.append(('EOF', ''))
+    return tokens
 
 #Level 1 Precendence and Associativity: Addition and Subtraction. Left
+
 def parse_one(tokens, index):
     index, result, tree = parse_two(tokens, index)
     while tokens[index][0] == 'OP' and tokens[index][1] in ('+', '-'):

@@ -107,6 +107,12 @@ def tokenize(expr_str):
 tokens.append(('EOF', ''))
 return tokens
 
+#Level 1 Precendence and Associativity: Addition and Subtraction. Left
+def parse_one(tokens, index):
+    index, result, tree = parse_two(tokens, index)
+    while tokens[index][0] == 'OP' and tokens[index][1] in ('+'. '-'):
+        op = tokens[index][1]
+        index, right, right_tree = parse_two
 
 
 

@@ -121,6 +121,7 @@ def parse_one(tokens, index):
     return index, result, tree
 
 #Level 2 Precendence and Associativity: Muptiplication (inc Implicit), Division, Percentage. Left
+
 def parse_two(tokens, index):
     index, result, tree = parse_three(tokens, index)
     while True:
@@ -144,7 +145,21 @@ def parse_two(tokens, index):
                 else
                     result = result % right
     
-            
+        elif token_type in ('LPAREN', 'NUMBER'):
+            if token_type == 'NUMBER' abd tokens[index-1][0] == 'NUMBER':
+                raise SyntaxError("Adjacent numbers without an operator are invalid.")
+
+            index, right, right_tree - parse_three(tokens, index)
+            tree = f"(* {tree} {right_tree})"
+            result = result * right
+        else:
+            break
+
+    return index, result, tree
+
+    #Level 3 Precendence and Associativity: Unary. Prefix
+
+    def parse_three(tokens, index)
 
 
 

@@ -112,7 +112,14 @@ def parse_one(tokens, index):
     index, result, tree = parse_two(tokens, index)
     while tokens[index][0] == 'OP' and tokens[index][1] in ('+'. '-'):
         op = tokens[index][1]
-        index, right, right_tree = parse_two
+        index, right, right_tree = parse_two(tokens, index + 1)
+        tree = f"({op} {tree} {right_tree})"
+        if op == '+':
+            result = result + right
+        else:
+            result = result - right
+    return index, result, tree
+            
 
 
 

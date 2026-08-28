@@ -160,6 +160,51 @@ def parse_two(tokens, index):
     #Level 3 Precendence and Associativity: Unary. Prefix
 
     def parse_three(tokens, index)
+        if tokens[index][0] == 'OP' and tokens[index][1] == '-':
+        index, operand, tree = parse_three(tokens, index + 1)
+        return index, -operand, f"(- {tree})"
+    elif tokens[index][0] == 'OP' and tokens[index][1] == '+':
+        raise SyntaxError("Unary + is not supported.")
+            
+    return parse_four(tokens, index)
+
+#Level 4 Precendence and Associativity: Expnentiation. Right 
+
+def parse_four(tokens, index):
+    index, result, tree = parse_base(tokens, index)
+    if tokens[index][0] == 'OP' and tokens[index][1] == '^':
+        index, right, right_tree = parse_four(tokens, index + 1)
+        tree = f"(^ {tree} {right_tree})"
+        result = result ** right
+    return index, result, tree
+
+#Base Level: Primary Values and Parentheses
+
+def parse_base(tokens, index):
+    token_type, token_value = tokens[index]
+    
+    if token_type == 'NUMBER':
+        return index + 1, token_value, str(token_value)
+    
+    if token_type == 'LPAREN':
+        index, result, tree = parse_one(tokens, index + 1)
+        if tokens[index][0] != 'RPAREN':
+            raise SyntaxError("Missing closing parenthesis")
+        return index + 1, result, tree
+    
+    raise SyntaxError(f"Unexpected token: {token_value if token_value else token_type}")
+
+#Decimals: Full numbers for .0, 4 decimal places otherwise
+
+def format_output(value):
+       
+###TO DO: 
+#finish decimal formatting
+#token formatting for output
+#rest of output file text formatting
+#output file printout
+
+
 
 
 

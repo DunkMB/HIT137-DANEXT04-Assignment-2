@@ -16,6 +16,7 @@ print("_" * 50)
 print("Question 1")
 print("_" * 50)
 
+# Duncan's Component
 
 def encrypt_file(char, shift1, shift2):
     if char.islower():
@@ -76,3 +77,37 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+    #Jonathan's Component
+
+def Decryption(char, shift1, shift2):
+    if char.islower():
+        index = ord(char)-ord('a')
+        if index < 13:
+            return chr(index-(shift1*shift2)) #a-m decryption
+        else:
+            return chur(index+(shift1*shift2)) #n-z decryption
+    if char.isupper():
+        if index <13:
+            return chr(index+shift1) #A-N decryption
+        else:
+            return chr(index-(shift2*shift2)) #O-Z decryption
+    if char.isdigit():
+        return str(int(char) - (shift1-shift2)) #integer decryption
+    else:
+        return char
+
+def decrypt_file():
+    input_file = "encrypted_text.txt"
+    with open(decrypt_file, 'r') as file:
+        content = file.read()
+    output_file = "Decrypted_Text.txt"
+    with open(output_file, 'w') as file:
+        file.write(decrypted)
+
+def verify_files(original_path: str, decrypted_path: str):
+    file_match = filecmp.cmp(original_path, decrypted_path, shallow=False)
+    if file_match == True:
+        return "Decryption Successful! Files match."
+    else:
+        return 'Decryption Error! Files do not match.'

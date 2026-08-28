@@ -35,6 +35,12 @@ def encrypt_file(char, shift1, shift2):
     else:
         return char
 
+def encode_text(text, shift1, shift2):
+    result = ""
+    for char in text:
+        result += encrypt_file(char, shift1, shift2)
+    return result
+
 # def decrypt_file(char, shift1, shift2):
 #     if char.islower():
 #         index = ord(char) - ord('a')  
@@ -59,7 +65,7 @@ def main():
         content = file.read()
     shift1 = int(input("Enter the first shift value (+ve integer): "))
     shift2 = int(input("Enter the second shift value (+ve integer): "))
-    encoded = encrypt_file(content, shift1, shift2)
+    encoded = encode_text(content, shift1, shift2)
 
     output_file = "encrypted_text.txt"
     with open(output_file, "w") as file:

@@ -18,9 +18,12 @@ print("_" * 50)
 
 #Duncan's Component
 
+shift1 = int(input("Enter the first shift value (+ve integer): "))
+shift2 = int(input("Enter the second shift value (+ve integer): "))
+
 def cypher(char, shift1, shift2):
     if char.islower():
-        index = ord(char) - ord('a')  
+        index = ord(char) - ord('a')
         if index < 13:                                               # a-m
             return chr((index + shift1 * shift2) % 26 + ord('a'))
         else:                                                        # n-z
@@ -32,7 +35,7 @@ def cypher(char, shift1, shift2):
         else:                                                        # N-Z
             return chr((index + shift2 * shift2) % 26 + ord('A'))
     elif char.isdigit():                                             # if chars are digits
-        return str((int(char) + shift1 - shift2) % 10)    
+        return str((int(char) + shift1 - shift2) % 10)
     else:
         return char
 
@@ -40,9 +43,12 @@ def main():
     input_file = "raw_text.txt"
     with open(input_file, "r") as file:
         content = file.read()
-    shift1 = int(input("Enter the first shift value (+ve integer): "))
-    shift2 = int(input("Enter the second shift value (+ve integer): "))
-    encoded = cypher(content, shift1, shift2)
+
+    # Iterate through content and apply cypher character by character
+    encoded_chars = []
+    for char in content:
+        encoded_chars.append(cypher(char, shift1, shift2))
+    encoded = "".join(encoded_chars) # Join the list of characters back into a string
 
     output_file = "encrypted_text.txt"
     with open(output_file, "w") as file:
@@ -58,35 +64,58 @@ if __name__ == "__main__":
 
 def Decryption(char, shift1, shift2):
     if char.islower():
-        index = ord(char)-ord('a')
-        if index < 13:
-            return chr(index-(shift1*shift2)) #a-m decryption
-        else:
-            return chur(index+(shift1*shift2)) #n-z decryption
-    if char.isupper():
-        if index <13:
-            return chr(index+shift1) #A-N decryption
-        else:
-            return chr(index-(shift2*shift2)) #O-Z decryption
-    if char.isdigit():
-        return str(int(char) - (shift1-shift2)) #integer decryption
-    else:
-        return char
+       for v in range(26):
+        original_char = chr(ord('a')+v)
+        if cypher(original_char, shift1, shift2)==char:
+          return original_char
+    elif char.isupper():
+      for v in range(26):
+        original_char = chr(ord('A')+v)
+        if cypher(original_char, shift1, shift2)==char:
+          return original_char
+    elif char.isdigit():
+      for v in range(10):
+        original_digit=str(v)
+        if cypher(original_digit, shift1, shift2)==char:
+          return original_digit
+    return char
+        
 
-def decrypt_file():
+def decrypt_text():
     input_file = "encrypted_text.txt"
-    with open(decrypt_file, 'r') as file:
+    with open(input_file, "r") as file:
+        decryption_key = file.readline().strip().split(', ')
+        decryption_shift1 = int(decryption_key[0])
+        decryption_shift2 = int(decryption_key[1])
         content = file.read()
-    output_file = "Decrypted_Text.txt"
-    with open(output_file, 'w') as file:
-        file.write(decrypted)
 
-def verify_files(original_path: str, decrypted_path: str):
-    file_match = filecmp.cmp(original_path, decrypted_path, shallow=False)
-    if file_match == True:
-        return "Decryption Successful! Files match."
-    else:
-        return 'Decryption Error! Files do not match.'
+    Decrypted_chars = []
+    for char in content:
+        Decrypted_chars.append(Decryption(char, decryption_shift1, decryption_shift2))
+    Decrypted = str("".join(Decrypted_chars))
+
+    output_file2 = "decrypted_text.txt"
+    with open(output_file2, "w") as file:
+        file.write(Decrypted)
+    print(f"Decryption Completed! Decrypted text saved to {output_file2}")
+
+decrypt_text()
+
+import filecmp
+
+def comparison():
+  Original_file = 'raw_text.txt'
+  Decrypted_file = 'decrypted_text.txt'
+
+  compare = filecmp.cmp(Original_file, Decrypted_file)
+
+  if compare == True:
+    print('Files are identical! Encryption and Decryption process successful!')
+  else:
+    print('Error, please check code and/or source files. Process was unsuccessful.')
+  return
+
+comparison()
 
 
 

@@ -41,24 +41,6 @@ def encode_text(text, shift1, shift2):
         result += encrypt_file(char, shift1, shift2)
     return result
 
-# def decrypt_file(char, shift1, shift2):
-#     if char.islower():
-#         index = ord(char) - ord('a')  
-#         if index < 13:                                               # a-m
-#             return chr((index - shift1 * shift2) % 26 + ord('a'))
-#         else:                                                        # n-z
-#             return chr((index + shift1 + shift2) % 26 + ord('a'))
-#     elif char.isupper():
-#         index = ord(char) - ord('A')
-#         if index < 13:                                               # A-M
-#             return chr((index + shift1) % 26 + ord('A'))
-#         else:                                                        # N-Z
-#             return chr((index - shift2 * shift2) % 26 + ord('A'))
-#     elif char.isdigit():                                             # if chars are digits
-#         return str((int(char) - shift1 + shift2) % 10)    
-#     else:
-#         return char
-
 def main():
     input_file = "raw_text.txt"
     with open(input_file, "r") as file:

@@ -20,19 +20,19 @@ print("_" * 50)
 def encrypt_file(char, shift1, shift2):
     if char.islower():
         index = ord(char) - ord('a')
-        if index < 13:                                        # a-m
-            new_index = (index + shift1 * shift2) % 13
-        else:                                                  # n-z
+        if index < 13:                                          # a-m
+            new_index = (index + shift1 * shift2) % 13          # uses first half of alphabet for letter wrapping
+        else:                                                   # n-z
             rel = index - 13
-            new_index = 13 + (rel - shift1 - shift2) % 13
+            new_index = 13 + (rel - shift1 - shift2) % 13       # uses second half of alphabet for letter wrapping
         return chr(new_index + ord('a'))
     elif char.isupper():
         index = ord(char) - ord('A')
-        if index < 13:                                        # A-M
-            new_index = (index - shift1) % 13
-        else:                                                  # N-Z
+        if index < 13:                                          # A-M
+            new_index = (index - shift1) % 13                   # uses first half of alphabet for letter wrapping
+        else:                                                   # N-Z
             rel = index - 13
-            new_index = 13 + (rel + shift2 * shift2) % 13
+            new_index = 13 + (rel + shift2 * shift2) % 13       # uses second half of alphabet for letter wrapping
         return chr(new_index + ord('A'))
     elif char.isdigit():
         return str((int(char) + shift1 - shift2) % 10)
@@ -50,47 +50,47 @@ def main():
     input_file = "raw_text.txt"
     with open(input_file, "r") as file:
         content = file.read()
-    shift1 = int(input("Enter the first shift value (+ve integer): "))
-    shift2 = int(input("Enter the second shift value (+ve integer): "))
+    shift1 = int(input("Enter the first letter shift value (+ve integer): "))
+    shift2 = int(input("Enter the second letter shift value (+ve integer): "))
 
-    # Encode
+    # Encode the text and save to a file
     encoded = encode_text(content, shift1, shift2)
     encrypted_file = "encrypted_text.txt"
     with open(encrypted_file, "w") as file:
         file.write(f"{shift1}, {shift2}\n")
         file.write(encoded)
-    print(f"Done! Encoded text saved to {encrypted_file}")
+    print(f"Done! The encoded text was saved to {encrypted_file}")
 
     # Decode straight after
     decoded = decode_text(encoded, shift1, shift2)
     decrypted_file = "decrypted_text.txt"
     with open(decrypted_file, "w") as file:
         file.write(decoded)
-    print(f"Done! Decoded text saved to {decrypted_file}")
+    print(f"Done! The decoded text was saved to {decrypted_file}")
 
     # Compare original content to the decoded result
     if content == decoded:
-        print("Woohoo! Decoded text matches the original.")
+        print("Woohoo! The decoded text matches the original.")
     else:
-        print("Fail! Decoded text does NOT match the original.")
+        print("Fail! The decoded text does NOT match the original.")
 
 
 def decrypt_file(char, shift1, shift2):
     if char.islower():
         index = ord(char) - ord('a')
-        if index < 13:                                        # a-m
-            orig_index = (index - shift1 * shift2) % 13
-        else:                                                  # n-z
+        if index < 13:                                          # a-m
+            orig_index = (index - shift1 * shift2) % 13         # uses first half of alphabet for letter wrapping
+        else:                                                   # n-z
             rel = index - 13
-            orig_index = 13 + (rel + shift1 + shift2) % 13
+            orig_index = 13 + (rel + shift1 + shift2) % 13      # uses second half of alphabet for letter wrapping     
         return chr(orig_index + ord('a'))
     elif char.isupper():
         index = ord(char) - ord('A')
-        if index < 13:                                        # A-M
-            orig_index = (index + shift1) % 13
-        else:                                                  # N-Z
+        if index < 13:                                          # A-M
+            orig_index = (index + shift1) % 13                  # uses first half of alphabet for letter wrapping
+        else:                                                   # N-Z
             rel = index - 13
-            orig_index = 13 + (rel - shift2 * shift2) % 13
+            orig_index = 13 + (rel - shift2 * shift2) % 13      # uses second half of alphabet for letter wrapping
         return chr(orig_index + ord('A'))
     elif char.isdigit():
         return str((int(char) - shift1 + shift2) % 10)
@@ -117,52 +117,7 @@ def decode():
     with open(output_file, "w") as file:
         file.write(decoded)
 
-    print(f"Done! Decoded text saved to {output_file}")
+    print(f"Done! The decoded text was saved to {output_file}")
 
-    
-
-def decrypt_file(char, shift1, shift2):
-    if char.islower():
-        index = ord(char) - ord('a')
-        # try reversing the a-m formula first
-        candidate = (index - shift1 * shift2) % 26
-        if candidate < 13:
-            return chr(candidate + ord('a'))
-        # otherwise reverse the n-z formula
-        candidate = (index + shift1 + shift2) % 26
-        return chr(candidate + ord('a'))
-    elif char.isupper():
-        index = ord(char) - ord('A')
-        candidate = (index + shift1) % 26  # reverse A-M formula
-        if candidate < 13:
-            return chr(candidate + ord('A'))
-        candidate = (index - shift2 * shift2) % 26  # reverse N-Z formula
-        return chr(candidate + ord('A'))
-    elif char.isdigit():
-        return str((int(char) - shift1 + shift2) % 10)
-    else:
-        return char
-
-def decode_text(text, shift1, shift2):
-    result = ""
-    for char in text:
-        result += decrypt_file(char, shift1, shift2)
-    return result
-
-def decode():
-    input_file = "encrypted_text.txt"
-    with open(input_file, "r") as file:
-        first_line = file.readline().strip()
-        shift1, shift2 = map(int, first_line.split(","))
-        content = file.read()
-
-    decoded = decode_text(content, shift1, shift2)
-
-    output_file = "decrypted_text.txt"
-    with open(output_file, "w") as file:
-        file.write(decoded)
-
-    print(f"Done! Decoded text saved to {output_file}")
-    
 if __name__ == "__main__":
     main()

@@ -1,0 +1,61 @@
+#Jonathan's Component
+
+def Decryption(char, shift1, shift2):
+    if char.islower():
+        index = ord(char) - ord('a')
+        if index < 13:                                        # a-m
+            new_index = (index - shift1 * shift2) % 13
+        else:                                                  # n-z
+            rel = index - 13
+            new_index = 13 + (rel + shift1 + shift2) % 13
+        return chr(new_index + ord('a'))
+    elif char.isupper():
+        index = ord(char) - ord('A')
+        if index < 13:                                        # A-M
+            new_index = (index + shift1) % 13
+        else:                                                  # N-Z
+            rel = index - 13
+            new_index = 13 + (rel - shift2 * shift2) % 13
+        return chr(new_index + ord('A'))
+    elif char.isdigit():
+        return str((int(char) - shift1 + shift2) % 10)
+    else:
+        return char
+
+def decrypt_text():
+    input_file = "encrypted_text.txt"
+    with open(input_file, "r") as file:
+        decryption_key = file.readline().strip().split(', ')
+        decryption_shift1 = int(decryption_key[0])
+        decryption_shift2 = int(decryption_key[1])
+        content = file.read()
+
+    Decrypted_chars = []
+    for char in content:
+        Decrypted_chars.append(Decryption(char, decryption_shift1, decryption_shift2))
+    Decrypted = str("".join(Decrypted_chars))
+
+    output_file2 = "decrypted_text.txt"
+    with open(output_file2, "w") as file:
+        file.write(Decrypted)
+    print(f"Decryption Completed! Decrypted text saved to {output_file2}")
+
+decrypt_text()
+
+def comparison():
+  Original_file = 'raw_text.txt'
+  Decrypted_file = 'decrypted_text.txt'
+
+  with open(Original_file, 'r') as orig_file:
+    Original_text = orig_file.read().strip()
+  
+  with open(Decrypted_file, 'r') as decrypt_file:
+    Decrypted_text = decrypt_file.read().strip()
+
+  if Original_text == Decrypted_text:
+    print('Files are identical! Encryption and Decryption process successful!')
+  else:
+    print('Error, please check code and/or source files. Process was unsuccessful.')
+  return
+
+comparison()

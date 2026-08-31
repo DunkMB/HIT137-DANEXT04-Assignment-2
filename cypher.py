@@ -101,7 +101,5 @@ def main():
     else:
         print("Fail! The decoded text does NOT match the original.")
 
-
-
 if __name__ == "__main__":
     main()

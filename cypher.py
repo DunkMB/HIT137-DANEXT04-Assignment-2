@@ -121,5 +121,48 @@ def decode():
 
     
 
+def decrypt_file(char, shift1, shift2):
+    if char.islower():
+        index = ord(char) - ord('a')
+        # try reversing the a-m formula first
+        candidate = (index - shift1 * shift2) % 26
+        if candidate < 13:
+            return chr(candidate + ord('a'))
+        # otherwise reverse the n-z formula
+        candidate = (index + shift1 + shift2) % 26
+        return chr(candidate + ord('a'))
+    elif char.isupper():
+        index = ord(char) - ord('A')
+        candidate = (index + shift1) % 26  # reverse A-M formula
+        if candidate < 13:
+            return chr(candidate + ord('A'))
+        candidate = (index - shift2 * shift2) % 26  # reverse N-Z formula
+        return chr(candidate + ord('A'))
+    elif char.isdigit():
+        return str((int(char) - shift1 + shift2) % 10)
+    else:
+        return char
+
+def decode_text(text, shift1, shift2):
+    result = ""
+    for char in text:
+        result += decrypt_file(char, shift1, shift2)
+    return result
+
+def decode():
+    input_file = "encrypted_text.txt"
+    with open(input_file, "r") as file:
+        first_line = file.readline().strip()
+        shift1, shift2 = map(int, first_line.split(","))
+        content = file.read()
+
+    decoded = decode_text(content, shift1, shift2)
+
+    output_file = "decrypted_text.txt"
+    with open(output_file, "w") as file:
+        file.write(decoded)
+
+    print(f"Done! Decoded text saved to {output_file}")
+    
 if __name__ == "__main__":
     main()

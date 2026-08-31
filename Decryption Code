@@ -24,17 +24,21 @@ shift2 = int(input("Enter the second shift value (+ve integer): "))
 def cypher(char, shift1, shift2):
     if char.islower():
         index = ord(char) - ord('a')
-        if index < 13:                                               # a-m
-            return chr((index + shift1 * shift2) % 26 + ord('a'))
-        else:                                                        # n-z
-            return chr((index - shift1 - shift2) % 26 + ord('a'))
+        if index < 13:                                        # a-m
+            new_index = (index + shift1 * shift2) % 13
+        else:                                                  # n-z
+            rel = index - 13
+            new_index = 13 + (rel - shift1 - shift2) % 13
+        return chr(new_index + ord('a'))
     elif char.isupper():
         index = ord(char) - ord('A')
-        if index < 13:                                               # A-M
-            return chr((index - shift1) % 26 + ord('A'))
-        else:                                                        # N-Z
-            return chr((index + shift2 * shift2) % 26 + ord('A'))
-    elif char.isdigit():                                             # if chars are digits
+        if index < 13:                                        # A-M
+            new_index = (index - shift1) % 13
+        else:                                                  # N-Z
+            rel = index - 13
+            new_index = 13 + (rel + shift2 * shift2) % 13
+        return chr(new_index + ord('A'))
+    elif char.isdigit():
         return str((int(char) + shift1 - shift2) % 10)
     else:
         return char
@@ -64,22 +68,25 @@ if __name__ == "__main__":
 
 def Decryption(char, shift1, shift2):
     if char.islower():
-       for v in range(26):
-        original_char = chr(ord('a')+v)
-        if cypher(original_char, shift1, shift2)==char:
-          return original_char
+        index = ord(char) - ord('a')
+        if index < 13:                                        # a-m
+            new_index = (index - shift1 * shift2) % 13
+        else:                                                  # n-z
+            rel = index - 13
+            new_index = 13 + (rel + shift1 + shift2) % 13
+        return chr(new_index + ord('a'))
     elif char.isupper():
-      for v in range(26):
-        original_char = chr(ord('A')+v)
-        if cypher(original_char, shift1, shift2)==char:
-          return original_char
+        index = ord(char) - ord('A')
+        if index < 13:                                        # A-M
+            new_index = (index + shift1) % 13
+        else:                                                  # N-Z
+            rel = index - 13
+            new_index = 13 + (rel - shift2 * shift2) % 13
+        return chr(new_index + ord('A'))
     elif char.isdigit():
-      for v in range(10):
-        original_digit=str(v)
-        if cypher(original_digit, shift1, shift2)==char:
-          return original_digit
-    return char
-        
+        return str((int(char) - shift1 + shift2) % 10)
+    else:
+        return char
 
 def decrypt_text():
     input_file = "encrypted_text.txt"
@@ -101,22 +108,23 @@ def decrypt_text():
 
 decrypt_text()
 
-import filecmp
-
 def comparison():
   Original_file = 'raw_text.txt'
   Decrypted_file = 'decrypted_text.txt'
 
-  compare = filecmp.cmp(Original_file, Decrypted_file)
+  with open(Original_file, 'r') as orig_file:
+    Original_text = orig_file.read().strip()
+  
+  with open(Decrypted_file, 'r') as decrypt_file:
+    Decrypted_text = decrypt_file.read().strip()
 
-  if compare == True:
+  if Original_text == Decrypted_text:
     print('Files are identical! Encryption and Decryption process successful!')
   else:
     print('Error, please check code and/or source files. Process was unsuccessful.')
   return
 
 comparison()
-
 
 
 

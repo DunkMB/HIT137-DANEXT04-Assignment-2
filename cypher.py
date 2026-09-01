@@ -17,7 +17,7 @@ print("Question 1")
 print("_" * 50)
 
 
-def encrypt_file(char, shift1, shift2):
+def encrypt_file(char: str, shift1: int, shift2: int) -> str:
     if char.islower():
         index = ord(char) - ord('a')
         if index < 13:                                          # a-m
@@ -39,13 +39,13 @@ def encrypt_file(char, shift1, shift2):
     else:
         return char
 
-def encode_text(text, shift1, shift2):
+def encode_text(text: str, shift1: int, shift2: int) -> str:
     result = ""
     for char in text:
         result += encrypt_file(char, shift1, shift2)
     return result
 
-def decrypt_file(char, shift1, shift2):
+def decrypt_file(char: str, shift1: int, shift2: int) -> str:
     if char.islower():
         index = ord(char) - ord('a')
         if index < 13:                                          # a-m
@@ -67,7 +67,7 @@ def decrypt_file(char, shift1, shift2):
     else:
         return char
 
-def decode_text(text, shift1, shift2):
+def decode_text(text: str, shift1: int, shift2: int) -> str:
     result = ""
     for char in text:
         result += decrypt_file(char, shift1, shift2)

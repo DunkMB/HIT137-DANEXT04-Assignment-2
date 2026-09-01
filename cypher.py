@@ -17,6 +17,9 @@ print("Question 1")
 print("_" * 50)
 
 
+shift1 = int(input("Enter the first letter shift value (+ve integer): "))
+shift2 = int(input("Enter the second letter shift value (+ve integer): "))
+
 def encrypt_file(char: str, shift1: int, shift2: int) -> str:
     if char.islower():
         index = ord(char) - ord('a')
@@ -50,8 +53,6 @@ def main():
     input_file = "raw_text.txt"
     with open(input_file, "r") as file:
         content = file.read()
-    shift1 = int(input("Enter the first letter shift value (+ve integer): "))
-    shift2 = int(input("Enter the second letter shift value (+ve integer): "))
 
     # Encode the text and save to a file
     encoded = encode_text(content, shift1, shift2)

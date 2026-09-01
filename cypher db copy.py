@@ -45,6 +45,33 @@ def encode_text(text: str, shift1: int, shift2: int) -> str:
         result += encrypt_file(char, shift1, shift2)
     return result
 
+def decrypt_file(char: str, shift1: int, shift2: int) -> str:
+    if char.islower():
+        index = ord(char) - ord('a')
+        if index < 13:                                          # a-m
+            orig_index = (index - shift1 * shift2) % 13         # uses first half of alphabet for letter wrapping
+        else:                                                   # n-z
+            rel = index - 13
+            orig_index = 13 + (rel + shift1 + shift2) % 13      # uses second half of alphabet for letter wrapping     
+        return chr(orig_index + ord('a'))
+    elif char.isupper():
+        index = ord(char) - ord('A')
+        if index < 13:                                          # A-M
+            orig_index = (index + shift1) % 13                  # uses first half of alphabet for letter wrapping
+        else:                                                   # N-Z
+            rel = index - 13
+            orig_index = 13 + (rel - shift2 * shift2) % 13      # uses second half of alphabet for letter wrapping
+        return chr(orig_index + ord('A'))
+    elif char.isdigit():
+        return str((int(char) - shift1 + shift2) % 10)
+    else:
+        return char
+
+def decode_text(text: str, shift1: int, shift2: int) -> str:
+    result = ""
+    for char in text:
+        result += decrypt_file(char, shift1, shift2)
+    return result
 
 def main():
     input_file = "raw_text.txt"
@@ -57,8 +84,22 @@ def main():
     encoded = encode_text(content, shift1, shift2)
     encrypted_file = "encrypted_text.txt"
     with open(encrypted_file, "w") as file:
+        file.write(f"{shift1}, {shift2}\n")
         file.write(encoded)
     print(f"Done! The encoded text was saved to {encrypted_file}")
+
+    # Decode straight after
+    decoded = decode_text(encoded, shift1, shift2)
+    decrypted_file = "decrypted_text.txt"
+    with open(decrypted_file, "w") as file:
+        file.write(decoded)
+    print(f"Done! The decoded text was saved to {decrypted_file}")
+
+    # Compare original content to the decoded result
+    if content == decoded:
+        print("Woohoo! The decoded text matches the original.")
+    else:
+        print("Fail! The decoded text does NOT match the original.")
 
 if __name__ == "__main__":
     main()

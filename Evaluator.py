@@ -13,7 +13,7 @@ def format_output(value):
         return f"{rounded:.4f}"
     return value
 
-"""
+
 #Formatting the tree for the output file.
 def build_expression_tree(tokens):
     tree = Tree('')
@@ -40,7 +40,7 @@ def build_expression_tree(tokens):
             raise ValueError(f"Invalid token: {token}")
 
     return tree
-"""
+    
 #Formatting the tokens for the output file.
 
 def format_tokens(tokenize):

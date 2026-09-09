@@ -17,9 +17,6 @@ print("Question 1")
 print("_" * 50)
 
 
-shift1 = int(input("Enter the first letter shift value (+ve integer): "))
-shift2 = int(input("Enter the second letter shift value (+ve integer): "))
-
 def encrypt_file(char: str, shift1: int, shift2: int) -> str:
     if char.islower():
         index = ord(char) - ord('a')
@@ -53,6 +50,8 @@ def main():
     input_file = "raw_text.txt"
     with open(input_file, "r") as file:
         content = file.read()
+    shift1 = int(input("Enter the first letter shift value (+ve integer): "))
+    shift2 = int(input("Enter the second letter shift value (+ve integer): "))
 
     # Encode the text and save to a file
     encoded = encode_text(content, shift1, shift2)
@@ -63,3 +62,61 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+#Jonathan's Component
+
+def Decryption(char, shift1, shift2):
+    if char.islower():
+        index = ord(char) - ord('a')
+        if index < 13:                                        # a-m
+            new_index = (index - shift1 * shift2) % 13
+        else:                                                  # n-z
+            rel = index - 13
+            new_index = 13 + (rel + shift1 + shift2) % 13
+        return chr(new_index + ord('a'))
+    elif char.isupper():
+        index = ord(char) - ord('A')
+        if index < 13:                                        # A-M
+            new_index = (index + shift1) % 13
+        else:                                                  # N-Z
+            rel = index - 13
+            new_index = 13 + (rel - shift2 * shift2) % 13
+        return chr(new_index + ord('A'))
+    elif char.isdigit():
+        return str((int(char) - shift1 + shift2) % 10)
+    else:
+        return char
+
+def decrypt_text():
+    input_file = "encrypted_text.txt"
+    with open(input_file, "r") as file:
+        content = file.read()
+    Decrypted_chars = []
+    for char in content:
+        Decrypted_chars.append(Decryption(char, shift1, shift2))
+    Decrypted = str("".join(Decrypted_chars))
+
+    decrypted_file = "decrypted_text.txt"
+    with open(decrypted_file, "w") as file:
+        file.write(Decrypted)
+    print(f"Decryption Completed! Decrypted text saved to {decrypted_file}")
+
+decrypt_text()
+
+def comparison():
+  Original_file = 'raw_text.txt'
+  Decrypted_file = 'decrypted_text.txt'
+
+  with open(Original_file, 'r') as orig_file:
+    Original_text = orig_file.read().strip()
+  
+  with open(Decrypted_file, 'r') as decrypt_file:
+    Decrypted_text = decrypt_file.read().strip()
+
+  if Original_text == Decrypted_text:
+    print('Files are identical! Encryption and Decryption process successful!')
+  else:
+    print('Error, please check code and/or source files. Process was unsuccessful.')
+  return
+
+comparison()

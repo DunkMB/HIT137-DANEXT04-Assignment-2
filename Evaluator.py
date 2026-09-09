@@ -1,11 +1,26 @@
+print("=" * 50)
+print("HIT137 - Software Now - Assignment 2")
+print("Group Name: DAN/EXT04")
+print("=" * 50)
+print("Group Members:")
+print("_" * 50)
+print(f"{'Amber Francis':<20} {'s403747':>20}")
+print(f"{'Darren Bragg':<20} {'s406821':>20}")
+print(f"{'Duncan Brown':<20} {'s407728':>20}")
+print(f"{'Jonathan Falkner':<20} {'s400817':>20}")
+print("_" * 50)
+print(" " * 50)
+print(" " * 50)
+print(" " * 50)
+print("_" * 50)
+print("Question 2")
+print("_" * 50)
+
 #Question 2 - Amber & Bragg
 #Reading from an input text
-#Open input text (Darren)
+#Open input text
 from inspect import stack
-from tkinter.tix import Tree
 from unittest import result
-
-
 
 #Tokenize (Darren)
 
@@ -50,8 +65,8 @@ def tokenize(expr_str):
             num_str = expr_str[start:i]
             val = float(num_str) if has_decimal else int(num_str)
             tokens.append(('NUMBER', val))
-            continue          
-
+            continue
+                       
         raise SyntaxError(f"Unexpected character: {c}")
 
     tokens.append(('EOF', ''))
@@ -144,11 +159,10 @@ def parse_base(tokens, index):
         return index + 1, result, tree
    
     raise SyntaxError(f"Unexpected token: {token_value if token_value else token_type}")
-    
+
 #Decimals: Full numbers for .0, 4 decimal places otherwise (Amber)
 
 def format_output(value):
-
     if isinstance(value, (int, float)):
         if value == int(value):
             return str(int(value))
@@ -160,40 +174,11 @@ def format_output(value):
         return f"{rounded:.4f}"
     return value
 
-
-#Formatting the tree for the output file. (Amber)
-def build_expression_tree(tokens):
-    tree = Tree('')
-    stack.push(tree)
-    current_tree = tree
-
-    for token in tokens:
-        if token == '(':
-            current_tree.insertLeft('')
-            stack.push(current_tree)
-            current_tree = current_tree.getLeftValue()
-        elif token in ['+', '-', '*', '/']:
-            current_tree.setOperator(token)
-            current_tree.insertRight('')
-            stack.push(current_tree)
-            current_tree = current_tree.getRightValue()
-        elif token.isdigit():
-            current_tree.setOperator(int(token))
-            parent = stack.pop()
-            current_tree = parent
-        elif token == ')':
-            current_tree = stack.pop()
-        else:
-            raise ValueError(f"Invalid token: {token}")
-
-    return tree
-    
-#Formatting the tokens for the output file. (Amber)
-
-def format_tokens(tokenize):
+#Format tokens for output text. (Amber)
+def format_tokens(tokens):
     """Formats the list of internal tokens into the requested string structure."""
     formatted = []
-    for token_type, value in tokenize:
+    for token_type, value in tokens:
         if token_type == 'NUMBER':
             formatted.append(f"[NUM:{value}]")
         elif token_type == 'OP':
@@ -206,13 +191,13 @@ def format_tokens(tokenize):
             formatted.append("[END]")
     return " ".join(formatted)
 
-#Evaluating the expression and returning the tree string, token string, and result value. (Amber)
-def evaluate(expr_str):
-
-    if not expr_str.strip():
+#Evaluate expression for output text. (Amber)
+def evaluate(expression):
+    """Evaluates an expression and returns its Tree string, Token string, and Result value."""
+    if not expression.strip():
         return None, None, "Error: Empty expression"
     try:
-        tokens = tokenize(expr_str)
+        tokens = tokenize(expression)
         token_str = format_tokens(tokens)
        
         index, result, tree_str = parse_one(tokens, 0)
@@ -226,31 +211,36 @@ def evaluate(expr_str):
     except Exception:
         return "ERROR", "ERROR", "ERROR: Invalid expression"
 
-#Opening and processing the input file. (Amber)
-def process_file():
+#Import the imput text, process it and write the output text. (Amber)
+def process_file(input_filename="input.txt", output_filename="output.txt"):
+    """Reads expressions from input.txt and writes evaluations block-style to output.txt."""
+    try:
+        with open(input_filename, 'r') as infile:
+            lines = infile.readlines()
+    except FileNotFoundError:
+        print(f"Error: {input_filename} not found.")
+        return
+
     results = []
-    with open("input_text.txt", 'r') as infile:
-        for line in infile:
-            stripped = line.strip()
-            if not stripped:
-                continue
-            try:
-                tokens = tokenize(stripped)
-                index, res, tree = parse_one(tokens, 0)
-                if index != len(tokens):
-                    raise SyntaxError("Unexpected token")
-            except (SyntaxError, ValueError) as e:
-                token_str = f"ERROR: {str(e)}"
-                res_str = f"ERROR: {str(e)}"
-                raise SyntaxError(f"Error processing line '{stripped}': {str(e)}")
-            results.append(f"Input: {stripped}\n")
-            results.append(f"Tree: {tree}\n")
-            results.append(f"Tokens: {format_tokens(tokens)}\n")
-            results.append(f"Result: {format_output(res)}\n\n")
-#Writing the results to the output file. (Amber)            
-    with open("output_text.txt", 'w') as outfile:
+    for line in lines:
+        stripped = line.strip()
+        if not stripped:
+            continue
+           
+        tree, tokens, res = evaluate(stripped)
+       
+        if tree is None:  # Skips completely empty inputs safely
+            continue
+           
+        # Creates your required multiline target structural format
+        results.append(f"Input: {stripped}\n")
+        results.append(f"Tree: {tree}\n")
+        results.append(f"Tokens: {tokens}\n")
+        results.append(f"Result: {res}\n\n")
+#Write output text. (Amber)
+    with open(output_filename, 'w') as outfile:
         outfile.writelines(results)
- 
+
 if __name__ == '__main__':
     process_file()
 

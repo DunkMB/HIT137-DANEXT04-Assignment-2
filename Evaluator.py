@@ -1,3 +1,21 @@
+print("=" * 50)
+print("HIT137 - Software Now - Assignment 2")
+print("Group Name: DAN/EXT04")
+print("=" * 50)
+print("Group Members:")
+print("_" * 50)
+print(f"{'Amber Francis':<20} {'s403747':>20}")
+print(f"{'Darren Bragg':<20} {'s406821':>20}")
+print(f"{'Duncan Brown':<20} {'s407728':>20}")
+print(f"{'Jonathan Falkner':<20} {'s400817':>20}")
+print("_" * 50)
+print(" " * 50)
+print(" " * 50)
+print(" " * 50)
+print("_" * 50)
+print("Question 2")
+print("_" * 50)
+
 #Question 2 - Amber & Bragg
 #Reading from an input text
 #Open input text

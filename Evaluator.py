@@ -2,11 +2,9 @@
 #Reading from an input text
 #Open input text
 from inspect import stack
-#from tkinter.tix import Tree
 from unittest import result
 
-
-#tokenize
+#Tokenize (Darren)
 
 def tokenize(expr_str):
     tokens = []
@@ -56,7 +54,7 @@ def tokenize(expr_str):
     tokens.append(('EOF', ''))
     return tokens
 
-#Level 1 Precendence and Associativity: Addition and Subtraction. Left
+#Level 1 Precendence and Associativity: Addition and Subtraction. Left (Darren)
 
 def parse_one(tokens, index):
     index, result, tree = parse_two(tokens, index)
@@ -70,7 +68,7 @@ def parse_one(tokens, index):
             result = result - right
     return index, result, tree
 
-#Level 2 Precendence and Associativity: Muptiplication (inc Implicit), Division, Percentage. Left
+#Level 2 Precendence and Associativity: Muptiplication (inc Implicit), Division, Percentage. Left (Darren)
 
 def parse_two(tokens, index):
     index, result, tree = parse_three(tokens, index)
@@ -107,7 +105,7 @@ def parse_two(tokens, index):
 
     return index, result, tree
 
-#Level 3 Precendence and Associativity: Unary. Prefix
+#Level 3 Precendence and Associativity: Unary. Prefix (Darren)
 
 def parse_three(tokens, index):
     if tokens[index][0] == 'OP' and tokens[index][1] == '-':
@@ -118,7 +116,7 @@ def parse_three(tokens, index):
            
     return parse_four(tokens, index)
 
-#Level 4 Precendence and Associativity: Expnentiation. Right
+#Level 4 Precendence and Associativity: Expnentiation. Right (Darren)
 
 def parse_four(tokens, index):
     index, result, tree = parse_base(tokens, index)
@@ -128,7 +126,7 @@ def parse_four(tokens, index):
         result = result ** right
     return index, result, tree
 
-#Base Level: Primary Values and Parentheses
+#Base Level: Primary Values and Parentheses (Darren)
 
 def parse_base(tokens, index):
     token_type, token_value = tokens[index]
@@ -144,17 +142,9 @@ def parse_base(tokens, index):
    
     raise SyntaxError(f"Unexpected token: {token_value if token_value else token_type}")
 
-#Decimals: Full numbers for .0, 4 decimal places otherwise
+#Decimals: Full numbers for .0, 4 decimal places otherwise (Amber)
 
 def format_output(value):
-       
-###TO DO:
-#finish decimal formatting
-#token formatting for output
-#rest of output file text formatting
-#output file printout
-
-
     if isinstance(value, (int, float)):
         if value == int(value):
             return str(int(value))
@@ -166,6 +156,7 @@ def format_output(value):
         return f"{rounded:.4f}"
     return value
 
+#Format tokens for output text. (Amber)
 def format_tokens(tokens):
     """Formats the list of internal tokens into the requested string structure."""
     formatted = []
@@ -182,6 +173,7 @@ def format_tokens(tokens):
             formatted.append("[END]")
     return " ".join(formatted)
 
+#Evaluate expression for output text. (Amber)
 def evaluate(expression):
     """Evaluates an expression and returns its Tree string, Token string, and Result value."""
     if not expression.strip():
@@ -201,6 +193,7 @@ def evaluate(expression):
     except Exception:
         return "ERROR", "ERROR", "ERROR: Invalid expression"
 
+#Import the imput text, process it and write the output text. (Amber)
 def process_file(input_filename="input.txt", output_filename="output.txt"):
     """Reads expressions from input.txt and writes evaluations block-style to output.txt."""
     try:
@@ -226,7 +219,7 @@ def process_file(input_filename="input.txt", output_filename="output.txt"):
         results.append(f"Tree: {tree}\n")
         results.append(f"Tokens: {tokens}\n")
         results.append(f"Result: {res}\n\n")
-
+#Write output text. (Amber)
     with open(output_filename, 'w') as outfile:
         outfile.writelines(results)
 
